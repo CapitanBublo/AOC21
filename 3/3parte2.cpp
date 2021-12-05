@@ -4,10 +4,7 @@
 #include <vector>
 
 std::string encontrar_O2(std::vector<std::string> datos){
-    if (datos.size() == 1){
-        return datos[0];
-    }
-    else{
+    while (datos.size() != 1){
         int longitud_palabra, cero, uno;
         std::vector<std::string> p0, p1;
 
@@ -27,31 +24,28 @@ std::string encontrar_O2(std::vector<std::string> datos){
                     p1.push_back(datos[j]);
                 }
             }
-            if((cero == datos.size()) || (uno == datos.size())){
-                std::cout << "he superado una iteracion y esta es una llamada recursiva de 02" << std::endl;
-            }
-            else if (cero > uno){
-                return encontrar_O2(p0);
+            if (cero > uno){
+                datos = p0;
             }
             else if (uno >= cero){
-                return encontrar_O2(p1);
+                datos = p1;
             }
         }
     }
+    return datos[0];
 }
 
 std::string encontrar_CO2(std::vector<std::string> datos){
-    if (datos.size() == 1){
-        return datos[0];
-    }
-    else{
+    while (datos.size() != 1){
         int longitud_palabra, cero, uno;
         std::vector<std::string> p0, p1;
 
         longitud_palabra = datos[0].size();
-        for (int i = 0; i < longitud_palabra; i++){
+        for (int i = 0; ((i < longitud_palabra) && (datos.size() != 1)); i++){
             cero = 0;
             uno = 0;
+            p0.clear();
+            p1.clear();
             for (int j = 0; j < datos.size(); j++){
                 if (datos[j][i] == '0'){
                     cero++;
@@ -62,20 +56,19 @@ std::string encontrar_CO2(std::vector<std::string> datos){
                     p1.push_back(datos[j]);
                 }
             }
-            if((cero == datos.size()) && (uno == datos.size())){
-                std::cout << "he superado una iteracion y esta es una llamada recursiva de C02" << std::endl;
-            }
-            else if (cero > uno){
-                return encontrar_CO2(p1);
+            if (cero > uno){
+                datos = p1;
             }
             else if (uno >= cero){
-                return encontrar_CO2(p0);
+                datos = p0;
             }
         }
     }
+    return datos[0];
 }
 
-int main(int argc, char **argv){
+int main(int argc, char **argv)
+{
     std::ifstream entrada;
     std::string valores, O2, CO2;
     std::vector<std::string> datos;
@@ -83,7 +76,8 @@ int main(int argc, char **argv){
 
     entrada.open(argv[1]);
 
-    while (!entrada.eof()){
+    while (!entrada.eof())
+    {
         entrada >> valores;
         datos.push_back(valores);
     }
